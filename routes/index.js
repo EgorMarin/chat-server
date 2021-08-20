@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const { getChats, getMessages } = require('../services/localData')
+
+const { getChats, getMessages } = require('../services/localData');
+const { imageUploader, videoUploader } = require('../utils/multer');
 
 router.get('/chats', (req, res, next) => {
   const { user } = req.query;
@@ -20,6 +22,18 @@ router.get('/messages', (req, res, next) => {
     const messages = getMessages({ page, limit })
 
     res.json(messages)
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post('/upload', [imageUploader.single('file'), videoUploader.single('file')], (req, res, next) => {
+  console.log(req.file);
+
+  try {
+    // const messages = getMessages({ page, limit })
+
+    res.json('ok')
   } catch (e) {
     next(e)
   }

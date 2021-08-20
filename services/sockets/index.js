@@ -18,6 +18,10 @@ module.exports = (io) => {
       io.to(chatId).emit('message', msg);
     });
 
+    socket.on('typing', ({ chatId, bool }) => {
+      socket.broadcast.to(chatId).emit('showTyping', bool);
+    })
+
     socket.on('disconnect', () => {
       console.log('User has disconnected');
     })
